@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input {
+            padding: 8px;
+            width: 250px;
+            margin-bottom: 5px;
+        }
+
+        .validation-message {
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        .valid {
+            border: 2px solid green;
+        }
+
+        .invalid {
+            border: 2px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Sign Up Form with Live Validation</h2>
+    <form id="signupForm" novalidate>
+        <div class="form-group">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" required>
+            <div id="nameMessage" class="validation-message"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" required>
+            <div id="emailMessage" class="validation-message"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" required>
+            <div id="passwordMessage" class="validation-message"></div>
+        </div>
+    </form>
+
+    <script>
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        nameInput.addEventListener('input', validateName);
+        emailInput.addEventListener('input', validateEmail);
+        passwordInput.addEventListener('input', validatePassword);
+
+        function validateName() {
+            const message = document.getElementById('nameMessage');
+            if (nameInput.value.trim() === '') {
+                nameInput.classList.add('invalid');
+                nameInput.classList.remove('valid');
+                message.style.color = 'red';
+                message.textContent = 'Name cannot be empty';
+            } else {
+                nameInput.classList.add('valid');
+                nameInput.classList.remove('invalid');
+                message.style.color = 'green';
+                message.textContent = 'Valid name';
+            }
+        }
+
+        function validateEmail() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const message = document.getElementById('emailMessage');
+            if (emailRegex.test(emailInput.value)) {
+                emailInput.classList.add('valid');
+                emailInput.classList.remove('invalid');
+                message.style.color = 'green';
+                message.textContent = 'Valid email format';
+            } else {
+                emailInput.classList.add('invalid');
+                emailInput.classList.remove('valid');
+                message.style.color = 'red';
+                message.textContent = 'Invalid email format';
+            }
+        }
+
+        function validatePassword() {
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+            const message = document.getElementById('passwordMessage');
+            if (passwordRegex.test(passwordInput.value)) {
+                passwordInput.classList.add('valid');
+                passwordInput.classList.remove('invalid');
+                message.style.color = 'green';
+                message.textContent = 'Valid password';
+            } else {
+                passwordInput.classList.add('invalid');
+                passwordInput.classList.remove('valid');
+                message.style.color = 'red';
+                message.textContent = 'Password must be at least 8 characters with 1 uppercase & 1 number';
+            }
+        }
+    </script>
+</body>
+
+</html>
